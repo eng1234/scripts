@@ -1,0 +1,1 @@
+{"key":"16EEFD2CD774701EC20812514D3C815B","id":12248,"type":"Coverity authentication key","username":"mcu_platforms","comments":{"port":"443","host":"coverity.apps.carrier.com","description":"global_platform_aws","creationDate":"2024-02-22T06:16:25.496Z","ssl":"true","expirationDate":"2054-02-22T06:16:25.496Z"},"domain":"local","version":2}
