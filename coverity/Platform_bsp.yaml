@@ -36,7 +36,7 @@ version:
 connection:   
     # The URL of the Coverity Connect instance.
     # Mandatory field
-    url: https://coverity.apps.carrier.com
+    url: https://coverity.apps.kgsolutions.com
 
     # Coverity Connect username. Password or other authentication key
     # is passed in to the application from the command line.
