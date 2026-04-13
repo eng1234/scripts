@@ -1,0 +1,26 @@
+#!/bin/sh
+
+origin=origin/Public_Release_$1
+
+shift
+
+echo branching from $origin
+
+
+BRA=$(echo $* | sed "s/ & / /" | tr -d "&,[]/" | tr " " "_" )
+
+echo $BRA
+
+
+echo git fetch 
+echo git checkout -b $BRA $origin
+echo git push -u  am $BRA
+
+echo ...
+sleep 20s
+
+git fetch 
+git checkout -b $BRA $origin
+git push -u  am $BRA
+
+

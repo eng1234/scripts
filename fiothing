@@ -1,0 +1,2 @@
+#!/bin/sh
+fioctl devices config updates --tags dev-andy WiserHome046EF7 --apps "alpine-dev,ota-manager"

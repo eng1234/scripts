@@ -1,0 +1,14 @@
+#!/bin/bash
+# cd to the most recently modified subdirectory
+
+TARGET="${1:-.}"
+LATEST=$(ls -td "$TARGET"/*/ 2>/dev/null | head -1)
+
+if [ -n "$LATEST" ]; then
+    cd "$LATEST" || exit 1
+    echo "$LATEST"
+    exec "$SHELL"
+else
+    echo "No subdirectories found"
+    exit 1
+fi

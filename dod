@@ -1,0 +1,1 @@
+LS_COLORS='di=1;32:fi=1;37' ls --color=always -ltFr $*

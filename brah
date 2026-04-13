@@ -1,0 +1,39 @@
+#!/bin/bash
+
+BRA=$(echo $* | sed "s/ & / /" | tr -d "&,[]/()" | sed "s/__/_/g" | tr " " "_" | sed "s/__/_/g" )
+
+echo $(date +%Y-%m-%d_%H:%M:%S) bra $BRA >> ~/git.log
+
+
+git fetch origin
+echo git checkout -b $BRA
+echo git push -u  am $BRA
+
+echo ...
+# sleep 20s
+#!/bin/bash
+
+# Wait for a keypress
+echo "Press any key to continue, or Escape to abort..."
+read -n 1 -s key
+
+# Get the key code
+keycode=${key:0:1}
+
+# Convert the key code to an integer
+keycode_int=$(printf "%d" "'$keycode")
+
+# If the key code is 27 (ASCII for Escape), abort
+if [[ $keycode_int == "27" ]]; then
+  echo "Aborted."
+  exit 1
+fi
+
+# Otherwise, continue
+echo "Continuing..."
+
+sleep 3
+git fetch origin
+git checkout -b $BRA
+git push -u  am $BRA
+

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# write bash script to chang a string like this "WISER-21849_MWDMM_Hub_Remove_the_MWDM_Feature_Flag" to "[WISER-21849] MWDMM Hub Remove the MWDM Feature Flag"
+input="WISER-21849_MWDMM_Hub_Remove_the_MWDM_Feature_Flag"
+
+
+
+input=$1
+
+# if $1 is emppty then set input to git `branch --show-current`
+if [ -z "$1" ]; then
+    input=$(git branch --show-current)
+fi
+
+ticket=$(echo $input | cut -d'_' -f1)
+title=$(echo $input | cut -d'_' -f2- | tr '_' ' ')
+formatted="[$ticket] $title"
+echo $formatted is in the Clipboard!
+# echo into clipboard
+echo $formatted | xclip -selection clipboard

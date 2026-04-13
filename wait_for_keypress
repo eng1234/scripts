@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Wait for a keypress
+echo "Press any key to continue, or Escape to abort..."
+read -n 1 -s key
+
+# Get the key code
+keycode=${key:0:1}
+
+# Convert the key code to an integer
+keycode_int=$(printf "%d" "'$keycode")
+
+# If the key code is 27 (ASCII for Escape), abort
+if [[ $keycode_int == "27" ]]; then
+  echo "Aborted."
+  exit 1
+fi
+
+# Otherwise, continue
+echo "Continuing..."
+

@@ -1,0 +1,38 @@
+#!/bin/bash
+# ========================================================================
+# bang - Fast Git Commit & Push Utility
+# ========================================================================
+# Usage:   bang [-f] Your commit message here
+# Example: bang Fixed OTA header reduced to 32 bytes
+#          bang -f Quick fix (skips 5-second delay)
+# ========================================================================
+
+FAST_MODE=0
+if [ "$1" = "-f" ] || [ "$1" = "-F" ]; then
+    FAST_MODE=1
+    shift
+fi
+
+MSG="$*"
+if [ -z "$MSG" ]; then
+    echo "Usage: bang [-f] Your commit message"
+    exit 1
+fi
+
+# Add all tracked modified files, excluding build artifacts
+git ls-files --modified | grep -vi -e 'Prebuild.bat' -e 'ZigbeeStack' \
+    -e 'subdir.mk' -e 'SecureEFR32Bootloader' -e 'BuildAll.bat' -e 'cFMT.h' \
+    | tr -d '\r' | xargs -d '\n' git add
+
+git commit -m "$MSG"
+
+# Log to git.log
+echo "$(date +%Y-%m-%d_%H:%M:%S) BANG $MSG $(git branch --show-current)" >> ~/git.log
+
+# Pause 5 seconds unless -f specified
+if [ "$FAST_MODE" -eq 0 ]; then
+    echo "Pushing in 5 seconds... (Ctrl+C to abort)"
+    sleep 5
+fi
+
+git push

@@ -1,0 +1,9 @@
+#!/bin/sh
+git tag $1
+IMAGE=WiserHomeLinux_$1
+7z a $IMAGE build/linux-target/Stripped/WiserHomeLinux
+echo 7z a $IMAGE.7z build/linux-target/Stripped/WiserHomeLinux
+echo cp $IMAGE.7z /mnt/c/one/se/HUB_LAND/release 
+cp $IMAGE.7z /mnt/c/one/se/HUB_LAND/release 
+
+

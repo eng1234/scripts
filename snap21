@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Define backup directory
+BACKUP_DIR=~/bak
+
+# Check if backup directory exists, if not, create it
+if [ ! -d "$BACKUP_DIR" ]; then
+    mkdir -p $BACKUP_DIR
+fi
+
+# Create a tarball of all modified files
+TIMEDATE=$(date +%Y_%m_%d_%H_%M_%S)
+if [ -n "$1" ]; then
+    FILENAME="modded_files_${1}_${TIMEDATE}.tar"
+else
+    FILENAME="modded_files_$(basename $(pwd))_${TIMEDATE}.tar"
+fi
+
+tar -czvf $FILENAME `git ls-files --modified`
+
+cp $FILENAME modded_files.tar
+
+sender.sh $FILENAME
+sender.sh modded_files.tar
+mv $FILENAME modded_files.tar $BACKUP_DIR

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo ==================== >> /mnt/c/one/se/hub-patch1
+date >> /mnt/c/one/se/hub-patch1_$1
+echo ==================== >> /mnt/c/one/se/hub-patch1
+git diff  >> /mnt/c/one/se/hub-patch1_$1
