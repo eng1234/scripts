@@ -1,0 +1,10 @@
+#!/bin/bash
+if [ -z "$1" ]; then
+    name=$(basename "$PWD")
+else
+    name="$1"
+fi
+
+gh repo create "$name" --private
+GIT_USERNAME=$(gh api user --jq .login)
+git remote add gh "https://github.com/$GIT_USERNAME/$name"
