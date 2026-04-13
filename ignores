@@ -1,0 +1,18 @@
+#!/bin/bash
+append() { grep -qxF "$1" .gitignore 2>/dev/null || echo "$1" >> .gitignore; }
+append "*.o"
+append "*.d"
+append "*.lst"
+append "*.map"
+append "*.elf"
+append "*.mot"
+append "*.a"
+append "/build/"
+append "*.7z"
+append "*.zip"
+append "serial.log"
+append "serial_timed.log"
+append "*.pyc"
+append "*.pyo"
+git add .gitignore
+git commit -m "Update .gitignore"

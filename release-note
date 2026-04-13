@@ -1,0 +1,2 @@
+#!/bin/sh
+git log --pretty=format:"%<(9)%h %x09 %ad %x09 %<(25)%d %x09 %D %x09 %s" --decorate=full "$@"

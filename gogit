@@ -1,0 +1,6 @@
+#!/bin/bash
+git init
+ignores
+git add .
+bang "First commit"
+repo

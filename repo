@@ -1,0 +1,23 @@
+#!/bin/bash
+GIT_USERNAME=$(gh api user --jq .login 2>/dev/null)
+name=$(basename "$PWD")
+
+case "$1" in
+    -c)
+        gh repo create "$name" --private
+        echo "Repo created. Run 'repo -p' to push."
+        ;;
+    -p)
+        git remote add gh "https://github.com/$GIT_USERNAME/$name" 2>/dev/null
+        git push --set-upstream gh "$(git rev-parse --abbrev-ref HEAD)"
+        ;;
+    *)
+        git init
+        ignores
+        git add .
+        git commit -m "Initial commit"
+        gh repo create "$name" --private
+        git remote add gh "https://github.com/$GIT_USERNAME/$name"
+        git push --set-upstream gh "$(git rev-parse --abbrev-ref HEAD)"
+        ;;
+esac

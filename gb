@@ -1,0 +1,6 @@
+#!/bin/bash
+if [ -z "$1" ]; then
+    git branch --no-color
+else
+    git branch -a --no-color | grep -i "$*"
+fi
