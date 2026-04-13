@@ -1,27 +1,99 @@
 PATH=$PATH:~/scripts
 export PATH
 
+# ── Git ────────────────────────────────────────────────────────────────────────
+alias gl='cat ~/git.log'
 alias testssh="ssh -vT git@github.com"
-alias subs="git submodule update --init --recursive ZigbeeAppCommon"
-alias clone=clone.bat
-alias remote=remote.bat
-
-alias m=model
-alias db=db.bat
-alias dc=cd
-alias cd..="cd .."
+alias subs="git submodule update --init --recursive"
+alias reb="git merge origin/Development"
+alias gm="git merge"
+alias gp="git push"
 alias gf="git fetch"
-# alias w="cd /c/git/fm/ConnectedFlushMountedThermostat"
-alias w="cd /f/one/EMS/90540_TAKTIS_RADIO_NET_ws1"
-alias z="cd /c/git/fm/ConnectedFlushMountedThermostat/ZigbeeAppCommon"
-alias coo=mycoo
-alias mm=mm.bat
+alias gr="git remote -v"
+alias gs="git status"
+alias gb="git branch"
+alias conflicts='git diff --name-only --diff-filter=U'
 
-function mycoo()
+mygc()
 {
-	echo git checkout `git branch | grep 10642 `
+    echo gitch $*
+    echo $(date +%Y-%m-%d_%H:%M:%S) git checkout $* >> ~/git.log
+    git checkout $*
+}
+alias gc="mygc"
+
+myga()
+{
+    echo Git Add $@ ....
+    git add $@
+}
+alias ga=myga
+
+mybang()
+{
+    git add -u
+    git commit -m "$@"
+    git push
 }
 
+# ── Navigation & shell ─────────────────────────────────────────────────────────
+alias dc=cd
+alias cd..="cd .."
+alias md=mkdir
+alias pd=pwd
+alias h=history
+alias l=less
+alias cls=clear
+alias dir=ls
+alias p=popd
+alias D=logout
+alias so="source ~/.bashrc"
+alias sb="source ~/.bashrc"
+set -o ignoreeof
+
+# ── Editors & file open ────────────────────────────────────────────────────────
+alias np="'/c/Program Files/Notepad++/notepad++.exe'"
+# alias np="wsl-open "    # WSL
+alias vb="np ~/.bashrc"
+alias rc="vi ~/.bashrc; source ~/.bashrc"
+alias x="start ."
+
+# ── Script editing ─────────────────────────────────────────────────────────────
+mybld()
+{
+    touch ~/scripts/$1
+    vi ~/scripts/$1
+    chmod +x ~/scripts/$1
+}
+alias bld=mybld
+
+# ── Find ───────────────────────────────────────────────────────────────────────
+alias find=/usr/bin/find
+
+myff()
+{
+    find . -iname "$1" -print
+}
+alias ff=myff
+
+myffe()
+{
+    find . -iname "*$1" -print
+}
+
+# ── Windows interop ────────────────────────────────────────────────────────────
+alias wm="/c/Program\ Files\ \(x86\)/WinMerge/WinMergeU.exe"
+alias s=start
+alias bc=bc.bat
+alias tu=tu.bat
+alias lg=lg.bat
+alias ww=ww.bat
+alias tg=tg.bat
+alias mm=mm.bat
+alias m=model
+alias db=db.bat
+
+# ── Terminal title ─────────────────────────────────────────────────────────────
 function settitle() {
       export PS1="\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[0m\]\n$ "
       echo -ne "\e]0;$1\a"
@@ -30,106 +102,28 @@ function settitlepath() {
       export PS1="\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[0m\]\n$ "
 }
 
-mybld()
-{
-	touch ~/scripts/$1
-	vi ~/scripts/$1
-	chmod +x  ~/scripts/$1
-}
-
-alias md=mkdir
-alias rc="vi ~/.bashrc; source ~/.bashrc"
-alias gr="git remote -v"
-alias so="source ~/.bashrc"
-alias bld=mybld
-alias s=start
-alias bc=bc.bat
-alias tu=tu.bat
-alias lg=lg.bat
-alias ww=ww.bat
-alias tg=tg.bat
-
-myga()
-{
-	echo Git Add $@ ....
-	git add $@
-#	git status
-}
-
-
-bingo()
-{
-	echo GIT COMM "$@"
-}
-mybang()
-{
-	git add -u
-	git commit -m "$@"
-	git push
-}
-mygc()
-{
-	git commit -m $@
-}
-
-alias h=history
-alias vb="np ~/.bashrc"
-alias sb="source ~/.bashrc"
-alias ga=myga
-
-alias conflicts='git diff --name-only --diff-filter=U'
-alias gs="git status"
-alias gb="git branch"
-alias gc="git checkout" 
-alias cls=clear
-alias dir=ls
-alias wm="/c/Program\ Files\ \(x86\)/WinMerge/WinMergeU.exe"
-
-myff() 
-{
-	#do things with parameters like $1 such as
-	#mv $1 $1.bak
-	#cp $2 $1
-	find . -iname "$1" -print
-}
-
-myffe() 
-{
-	#do things with parameters like $1 such as
-	#mv $1 $1.bak
-	#cp $2 $1
-	find . -iname "*$1" -print
-}
-
-alias ff=myff 
-#"find . -print -name "
-
+# ── Project shortcuts (machine-specific — update per PC) ──────────────────────
 alias hsm="cd ~/src/securethingz/secure-deploy/hsm"
 alias sln="start ~/src/securethingz/secure-deploy/SpWin32.sln"
 alias cdd="cd ~/src/securethingz/secure-deploy"
 
-alias find=/usr/bin/find
-# alias np=
-alias np="'/c/Program Files/Notepad++/notepad++.exe'"
-alias pd=pwd
-alias x="start ."
-alias l=less
+# ── Laravel Sail ───────────────────────────────────────────────────────────────
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 
-###########################################################################
-# SSH FOR GIT
-#
-
+###############################################################################
+# SSH agent
+###############################################################################
 env=~/.ssh/agent.env
 
 agent_load_env () { test -f "$env" && . "$env" >| /dev/null ; }
-
 agent_start () {
     (umask 077; ssh-agent >| "$env")
-    . "$env" >| /dev/null ; }
+    . "$env" >| /dev/null
+}
 
 agent_load_env
 
-# agent_run_state: 0=agent running w/ key; 1=agent w/o key; 2= agent not running
+# 0=running w/ key  1=running w/o key  2=not running
 agent_run_state=$(ssh-add -l >| /dev/null 2>&1; echo $?)
 
 if [ ! "$SSH_AUTH_SOCK" ] || [ $agent_run_state = 2 ]; then
@@ -140,38 +134,3 @@ elif [ "$SSH_AUTH_SOCK" ] && [ $agent_run_state = 1 ]; then
 fi
 
 unset env
-
-# # eval ` ssh-agent `
-# ssh-add  /c/Documents\ and\ Settings/andy/.ssh/id_rsa
-
-# env=~/.ssh/agent.env
-
-# agent_load_env () 
-# { 
-	# test -f "$env" && . "$env" >| /dev/null ; 
-# }
-
-# agent_start () 
-# {
-    # (umask 077; ssh-agent >| "$env")
-    # . "$env" >| /dev/null ; 
-# }
-
-# agent_load_env
-
-# # agent_run_state: 0=agent running w/ key; 1=agent w/o key; 2= agent not running
-# agent_run_state=$(ssh-add -l >| /dev/null 2>&1; echo $?)
-
-# echo agent_run_state is $agent_run_state
-
-# if [ ! "$SSH_AUTH_SOCK" ] || [ $agent_run_state = 2 ]; then
-	# echoi Start AGENT
-	# agent_start
-	# ssh-add
-# elif [ "$SSH_AUTH_SOCK" ] && [ $agent_run_state = 1 ]; then
-	# ssh-add
-# fi
-
-# unset env
-
-# source .aliases
